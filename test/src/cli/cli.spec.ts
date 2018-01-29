@@ -1,20 +1,18 @@
 import * as chai from 'chai';
-const expect = chai.expect;
-
-import {temporaryDir, shell, pkg, exists, exec, read} from '../helpers';
-const tmp = temporaryDir();
-const tsconfigPath = require.resolve('../../../tsconfig.json');
-const tsNodePath = require.resolve('../../../node_modules/.bin/ts-node');
-const env = Object.freeze({TS_NODE_PROJECT: tsconfigPath, MODE:'TESTING'});
+import {temporaryDir, shell, pkg, exists, exec, read, shellAsync} from '../helpers';
+const expect = chai.expect,
+      tmp = temporaryDir(),
+      tsconfigPath = require.resolve('../../../tsconfig.json'),
+      env = Object.freeze({TS_NODE_PROJECT: tsconfigPath, MODE:'TESTING'});
 
 describe('CLI simple flags', () => {
 
     describe('when no tsconfig.json provided', () => {
 
-        let command = null;
+        let command = undefined;
         beforeEach(() => {
             tmp.create();
-            command = shell(tsNodePath, ['../bin/index-cli.js'], { cwd: tmp.name, env });
+            command = shell('node', ['../bin/index-cli.js'], { cwd: tmp.name, env });
         });
         afterEach(() => tmp.clean());
 
@@ -30,15 +28,15 @@ describe('CLI simple flags', () => {
 
     describe('when no tsconfig.json is found in cwd', () => {
 
-        let command = null;
+        let command = undefined;
         beforeEach(() => {
             tmp.create();
-            command = shell(tsNodePath, ['../bin/index-cli.js', '-p', '../test.json'], { cwd: tmp.name, env });
+            command = shell('node', ['../bin/index-cli.js', '-p', '../test.json'], { cwd: tmp.name, env });
         });
         afterEach(() => tmp.clean());
 
         it('should display error message', () => {
-            expect(command.stdout.toString()).to.contain('"tsconfig.json" file was not found in the current directory');
+            expect(command.stdout.toString()).to.contain('file was not found in the current directory');
         });
 
         it(`should not create a "documentation" directory`, () => {
@@ -49,10 +47,10 @@ describe('CLI simple flags', () => {
 
     describe('when just serving without generation', () => {
 
-        let command = null;
+        let command = undefined;
         beforeEach(() => {
             tmp.create();
-            command = shell(tsNodePath, ['../bin/index-cli.js', '-s'], { cwd: tmp.name, env });
+            command = shell('node', ['../bin/index-cli.js', '-s'], { cwd: tmp.name, env });
         });
         afterEach(() => tmp.clean());
 
@@ -63,10 +61,10 @@ describe('CLI simple flags', () => {
 
     describe('when just serving without generation and folder which does\'t exist', () => {
 
-        let command = null;
+        let command = undefined;
         beforeEach(() => {
             tmp.create();
-            command = shell(tsNodePath, ['../bin/index-cli.js', '-s', '-d', 'doc'], { cwd: tmp.name, env });
+            command = shell('node', ['../bin/index-cli.js', '-s', '-d', 'doc'], { cwd: tmp.name, env });
         });
         afterEach(() => tmp.clean());
 
@@ -76,36 +74,39 @@ describe('CLI simple flags', () => {
     });
 
     describe('when no README/package.json files available', () => {
+        let command = undefined;
 
-        let command = null;
         beforeEach(() => {
             tmp.create();
             tmp.copy('./test/src/sample-files/', tmp.name);
-            command = shell(tsNodePath, ['../bin/index-cli.js', '-p', 'tsconfig.simple.json', '-d', tmp.name], { cwd: tmp.name, env });
+            command = shell('node', ['../bin/index-cli.js', '-p', 'tsconfig.simple.json', '-d', tmp.name], { cwd: tmp.name, env });
         });
         afterEach(() => tmp.clean());
 
         it('should display error message', () => {
-            expect(command.stdout.toString()).to.contain('Error during README.md file reading');
-            expect(command.stdout.toString()).to.contain('Error during package.json read');
+            const output: string = command.stdout.toString();
+
+            expect(output.indexOf('Continuing without README.md file') > -1, 'No error displayed for README').to.be.true;
+            expect(output.indexOf('Continuing without package.json file') > -1, 'No error displayed for package.json').to.be.true;
         });
     });
 
     describe('showing the output type', () => {
 
-        let stdoutString = null, componentFile;
+        let componentFile;
         before(function (done) {
             tmp.create();
-            exec(tsNodePath + ' ./bin/index-cli.js -p ./test/src/sample-files/tsconfig.entry.json -d ' + tmp.name + '/', {env}, (error, stdout, stderr) => {
-                if (error) {
-                    console.error(`exec error: ${error}`);
-                    done('error');
-                    return;
-                }
-                stdoutString = stdout;
-                componentFile = read(`${tmp.name}/components/FooComponent.html`);
-                done();
-            });
+            let ls = shell('node', [
+                '../bin/index-cli.js',
+                '-p', '../test/src/sample-files/tsconfig.entry.json',
+                '-d', '../' + tmp.name + '/'], { cwd: tmp.name, env});
+
+            if (ls.stderr.toString() !== '') {
+                console.error(`shell error: ${ls.stderr.toString()}`);
+                done('error');
+            }
+            componentFile = read(`${tmp.name}/components/FooComponent.html`);
+            done();
         });
         after(() => tmp.clean());
 
@@ -115,80 +116,22 @@ describe('CLI simple flags', () => {
 
     });
 
-    describe('supporting internal/private methods', () => {
-
-        let stdoutString = null, componentFile;
-        before(function (done) {
-            tmp.create();
-            exec(tsNodePath + ' ./bin/index-cli.js -p ./test/src/sample-files/tsconfig.simple.json -d ' + tmp.name + '/', {env}, (error, stdout, stderr) => {
-                if (error) {
-                    console.error(`exec error: ${error}`);
-                    done('error');
-                    return;
-                }
-                stdoutString = stdout;
-                componentFile = read(`${tmp.name}/components/BarComponent.html`);
-                done();
-            });
-        });
-        after(() => tmp.clean());
-
-        it('should include by default methods marked as internal', () => {
-            expect(componentFile).to.contain('<code>internalMethod');
-        });
-
-        it('should exclude methods marked as hidden', () => {
-            expect(componentFile).not.to.contain('<code>hiddenMethod');
-        });
-
-        it('should include by default methods marked as private', () => {
-            expect(componentFile).to.contain('<code>privateMethod');
-        });
-    });
-
-    describe('disabling excluding methods with --disablePrivateOrInternalSupport', () => {
-
-        let stdoutString = null, componentFile;
-        before(function (done) {
-            tmp.create();
-            exec(tsNodePath + ' ./bin/index-cli.js -p ./test/src/sample-files/tsconfig.simple.json --disablePrivateOrInternalSupport -d ' + tmp.name + '/', {env}, (error, stdout, stderr) => {
-                if (error) {
-                    console.error(`exec error: ${error}`);
-                    done('error');
-                    return;
-                }
-                stdoutString = stdout;
-                componentFile = read(`${tmp.name}/components/BarComponent.html`);
-                done();
-            });
-        });
-        after(() => tmp.clean());
-
-        it('should exclude methods marked as private', () => {
-            expect(componentFile).not.to.contain('<code>privateMethod');
-        });
-
-        it('should exclude methods marked as internal', () => {
-            expect(componentFile).not.to.contain('<code>internalMethod');
-        });
-    });
-
     describe('when specific files are included in tsconfig', () => {
 
-        let stdoutString = null,
-          moduleFile = null;
+        let moduleFile = undefined;
         before(function (done) {
             tmp.create();
-            exec(tsNodePath + ' ./bin/index-cli.js -p ./test/src/sample-files/tsconfig.entry.json -d ' + tmp.name + '/', {env}, (error, stdout, stderr) => {
-                if (error) {
-                    console.error(`exec error: ${error}`);
-                    done('error');
-                    return;
-                }
-                stdoutString = stdout;
-                moduleFile = read(`${tmp.name}/modules/AppModule.html`);
-                done();
-            });
+            let ls = shell('node', [
+                '../bin/index-cli.js',
+                '-p', '../test/src/sample-files/tsconfig.entry.json',
+                '-d', '../' + tmp.name + '/'], { cwd: tmp.name, env});
+
+            if (ls.stderr.toString() !== '') {
+                console.error(`shell error: ${ls.stderr.toString()}`);
+                done('error');
+            }
+            moduleFile = read(`${tmp.name}/modules/AppModule.html`);
+            done();
         });
         after(() => tmp.clean(tmp.name));
 
@@ -200,27 +143,4 @@ describe('CLI simple flags', () => {
             expect(moduleFile).not.to.contain('modules/BarModule.html');
         });
     });
-
-    describe('when specific files are excluded in tsconfig', () => {
-        let stdoutString = null;
-        before(function (done) {
-            tmp.create();
-            exec(tsNodePath + ' ./bin/index-cli.js -p ./test/src/sample-files/tsconfig.exclude.json -d ' + tmp.name + '/', {env}, (error, stdout, stderr) => {
-                if (error) {
-                    console.error(`exec error: ${error}`);
-                    done('error');
-                    return;
-                }
-                stdoutString = stdout;
-                done();
-            });
-        });
-        after(() => tmp.clean(tmp.name));
-
-        it('should not create files excluded', () => {
-            const isFileExists = exists(`${tmp.name}/components/BarComponent.js`);
-            expect(isFileExists).to.be.false;
-        });
-    });
-
 });

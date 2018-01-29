@@ -2,8 +2,9 @@
 import typescript from 'rollup-plugin-typescript';
 
 export default {
-    format: 'cjs',
-    sourceMap: 'inline',
+    output: {
+        sourcemap: 'inline'
+    },
     plugins: [
         typescript({
             typescript: require('typescript')
@@ -19,6 +20,9 @@ export default {
         'live-server',
         'shelljs',
         'typescript',
-        'highlight.js'
+        'highlight.js',
+        'semver',
+        'json5',
+        'ts-simple-ast'
     ]
 }

@@ -1,3 +1,303 @@
+<a name="1.0.5"></a>
+# [1.0.5](https://github.com/compodoc/compodoc/compare/1.0.4...1.0.5) (2017-12-02)
+
+### Features
+
+* **code-highlightning:** copy button ([15ad139d](https://github.com/compodoc/compodoc/commit/15ad139d)), closes [#373](https://github.com/compodoc/-compodoc/issues/373)
+* **dependencies:** entryComponents support for modules ([4774f9e3](https://github.com/compodoc/compodoc/commit/4774f9e3))
+
+### Bug Fixes
+
+* **dependencies:** accessors documentation ([84857c2b](https://github.com/compodoc/compodoc/commit/84857c2b)), closes [#393](https://github.com/compodoc/-compodoc/issues/393)
+* **dependencies:** function parameter undefined in Miscellaneous - Functions ([e29a56c8](https://github.com/compodoc/compodoc/commit/e29a56c8)), closes [#389](https://github.com/compodoc/-compodoc/issues/389)
+* **dependencies:** Empty description for accessors ([45181513](https://github.com/compodoc/compodoc/commit/45181513)), closes [#385](https://github.com/compodoc/-compodoc/issues/385)
+* **dependencies:** wrong generated links of module declarations ([ab1af5b0](https://github.com/compodoc/compodoc/commit/ab1af5b0)), closes [#372](https://github.com/compodoc/-compodoc/issues/372)
+* **dependencies:** Dom tree tab - component with inline template ([9ff83a90](https://github.com/compodoc/compodoc/commit/9ff83a90)), closes [#370](https://github.com/compodoc/-compodoc/issues/370)
+* **dependencies:** static modifier ([6cd80868](https://github.com/compodoc/compodoc/commit/6cd80868)), closes [#367](https://github.com/compodoc/-compodoc/issues/367)
+* **dependencies:** disableLifeCycleHooks ignored for Directives ([c2b5f75f](https://github.com/compodoc/compodoc/commit/c2b5f75f)), closes [#363](https://github.com/compodoc/-compodoc/issues/363)
+* **dependencies:** dynamic import support for path and pathMatch routes definition ([633ea2f8](https://github.com/compodoc/compodoc/commit/633ea2f8)), closes [#216](https://github.com/compodoc/-compodoc/issues/216)
+* **tabs:** conflict with readme titles ([230d96a6](https://github.com/compodoc/compodoc/commit/230d96a6)), closes [#381](https://github.com/compodoc/-compodoc/issues/381)
+* **links:** the generated href to angular api doc is wrong ([153b38d9](https://github.com/compodoc/compodoc/commit/153b38d9)), closes [#368](https://github.com/compodoc/-compodoc/issues/368)
+* **markdown:** image tag not correctly closed ([43c86a17](https://github.com/compodoc/compodoc/commit/43c86a17)), closes [#384](https://github.com/compodoc/-compodoc/issues/384)
+* **coverage:** add misc functions and variables ([04e0c038](https://github.com/compodoc/compodoc/commit/04e0c038)), closes [#388](https://github.com/compodoc/-compodoc/issues/388)
+* **routes:** support for outlet dynamic imports, + enums ([d3b9b9e9](https://github.com/compodoc/compodoc/commit/d3b9b9e9)), closes [#394](https://github.com/compodoc/-compodoc/issues/394)
+* **core:** typescript errors ([96426902](https://github.com/compodoc/compodoc/commit/96426902)), closes [#369](https://github.com/compodoc/-compodoc/issues/369)
+Thanks [daniel.preussner](https://github.com/dp-1a)
+
+<a name="1.0.4"></a>
+# [1.0.4](https://github.com/compodoc/compodoc/compare/1.0.3...1.0.4) (2017-11-07)
+
+### Features
+
+* **pipes:** add metadata + functions and properties ([7ccb04b2](https://github.com/compodoc/compodoc/commit/7ccb04b2)), closes [#336](https://github.com/compodoc/-compodoc/issues/336)
+* **export:** beautify formats JSON output ([562455ab](https://github.com/compodoc/compodoc/commit/562455ab)) thanks [realappie](https://github.com/realappie)
+* **cli:** Add support for specifying a favicon ([8cfe576f](https://github.com/compodoc/compodoc/commit/8cfe576f)), closes [#310](https://github.com/compodoc/-compodoc/issues/310)
+* **dependencies:** interceptors support ([7efd812e](https://github.com/compodoc/compodoc/commit/7efd812e)), closes [#334](https://github.com/compodoc/-compodoc/issues/334)
+
+### Bug Fixes
+
+* **dependencies:** decorators metadatas resolve with imports ([a5a3027c](https://github.com/compodoc/compodoc/commit/a5a3027c)), closes [#94](https://github.com/compodoc/-compodoc/issues/94)
+* **dependencies:** spread operator support for module metadatas ([8e098086](https://github.com/compodoc/compodoc/commit/8e098086)), closes [#298](https://github.com/compodoc/-compodoc/issues/298)
+* **core:** split disablePrivateOrInternalSupport ([9e4222ed](https://github.com/compodoc/compodoc/commit/9e4222ed)), closes [#241](https://github.com/compodoc/-compodoc/issues/241) [#271](https://github.com/compodoc/-compodoc/issues/271)
+
+<a name="1.0.3"></a>
+# [1.0.3](https://github.com/compodoc/compodoc/compare/1.0.2...1.0.3) (2017-10-31)
+
+### Features
+
+* **generation:** return a Promise ([2792967](https://github.com/compodoc/compodoc/commit/2792967)), closes [#4](https://github.com/compodoc/gulp-compodoc/issues/4)
+
+### Bug Fixes
+
+* **configuration:** missing properties ([c55d2496](https://github.com/compodoc/compodoc/commit/c55d2496))
+* **process:** correct listening of unhandledRejection & uncaughtException ([a0c4f688](https://github.com/compodoc/compodoc/commit/a0c4f688))
+
+<a name="1.0.2"></a>
+# [1.0.2](https://github.com/compodoc/compodoc/compare/1.0.1...1.0.2) (2017-10-30)
+
+__Main features :__
+
+- export option : json and html, pdf coming soon
+- es6 accessors support
+
+### Features
+
+* **coverage:** per-file minimum coverage ([185465eb](https://github.com/compodoc/compodoc/commit/185465eb)), closes [#306](https://github.com/compodoc/compodoc/issues/306)
+* **dependencies:** accessors support ([bed46c93](https://github.com/compodoc/compodoc/commit/bed46c93)), closes [#274](https://github.com/compodoc/compodoc/issues/274)
+* **app:** export option ([93df1075](https://github.com/compodoc/compodoc/commit/93df1075)), closes [#196](https://github.com/compodoc/compodoc/issues/196)
+* **module:** graph fullscreen button
+([8161ea40](https://github.com/compodoc/compodoc/commit/8161ea40)), closes [#337](https://github.com/compodoc/compodoc/issues/337)
+
+### Bug Fixes
+
+* **interface:** fix relative link for properties ([4751f602](https://github.com/compodoc/compodoc/commit/4751f602)), closes [#311](https://github.com/compodoc/compodoc/issues/311)
+* **menu:** URLs for CHANGELOG, CONTRIBUTING, LICENSE in pages with depth = 1 ([8de9a9f3](https://github.com/compodoc/compodoc/commit/8de9a9f3)), closes [#328](https://github.com/compodoc/compodoc/issues/328)
+* **dependencies:** handling QualifiedName types ex: Highcharts.Options ([6bdd6345](https://github.com/compodoc/compodoc/commit/6bdd6345)), closes [#335](https://github.com/compodoc/compodoc/issues/335)
+* **coverage:** correctly ignore private members
+([19d8e5c2](https://github.com/compodoc/compodoc/commit/19d8e5c2)), closes [#332](https://github.com/compodoc/compodoc/issues/332)
+* **dependencies:** namespace support
+([46e3601f](https://github.com/compodoc/compodoc/commit/46e3601f)), closes [#341](https://github.com/compodoc/compodoc/issues/341)
+* **cli:** use tsconfig include attribute
+([69fa771c](https://github.com/compodoc/compodoc/commit/69fa771c)), closes [#307](https://github.com/compodoc/compodoc/issues/307)
+* **coverage:** restore very-good status
+([37d1965c](https://github.com/compodoc/compodoc/commit/37d1965c)), closes [#309](https://github.com/compodoc/compodoc/issues/309)
+
+<a name="1.0.1"></a>
+# [1.0.1](https://github.com/compodoc/compodoc/compare/1.0.0-beta.15...1.0.1) (2017-09-08)
+
+Stopping beta period. The release cycle will be more quicker than before, when between 5 to 10 bugs are ready to ship, i will submit a new patch version.
+
+### Features
+
+* **coverage:** Sort coverage table ([30923878](https://github.com/compodoc/compodoc/commit/30923878)), closes [#292](https://github.com/compodoc/compodoc/issues/292)
+* **link:** anchor support for @link ([d9b75567](https://github.com/compodoc/compodoc/commit/d9b75567)), closes [#211](https://github.com/compodoc/compodoc/issues/211)
+* **pages:** anchor for name of variables and functions ([d9869a6f](https://github.com/compodoc/compodoc/commit/d9869a6f))
+
+### Bug Fixes
+
+* **deps:** support self-defined type ([104b82fa](https://github.com/compodoc/compodoc/commit/104b82fa)), closes [#267](https://github.com/compodoc/compodoc/issues/267)
+* **deps:** Array of custom interface not showing in documentation ([469f0945](https://github.com/compodoc/compodoc/commit/469f0945)), closes [#300](https://github.com/compodoc/compodoc/issues/300)
+* **deps:** decorator with simple argument string ([8eb13c52](https://github.com/compodoc/compodoc/commit/8eb13c52)), closes [#299](https://github.com/compodoc/compodoc/issues/299)
+* **doc:** links to Angular documentation for modules import, export etc ([b9b9d419](https://github.com/compodoc/compodoc/commit/b9b9d419)), closes [#297](https://github.com/compodoc/compodoc/issues/297)
+
+<a name="1.0.0-beta.15"></a>
+# [1.0.0-beta.15](https://github.com/compodoc/compodoc/compare/1.0.0-beta.14...1.0.0-beta.15) (2017-09-04)
+
+## Changes
+
+- main graph for huge projects with more than 200 modules is disabled, and viz.js error catched.
+- @HostBinding & @HostListener support
+
+### Features
+
+* **deps:** optional support for parameter ([5bcef12](https://github.com/compodoc/compodoc/commit/5bcef12)), closes [#288](https://github.com/compodoc/compodoc/issues/288)
+* **app:** [@HostBinding](https://github.com/HostBinding) & [@HostListener](https://github.com/HostListener) support ([1ab4311](https://github.com/compodoc/compodoc/commit/1ab4311)), closes [#277](https://github.com/compodoc/compodoc/issues/277)
+* **misc:** Linking directly to correct enumeration, variable etc ([902c8f2](https://github.com/compodoc/compodoc/commit/902c8f2)), closes [#278](https://github.com/compodoc/compodoc/issues/278)
+
+### Bug Fixes
+
+* **symbols:** lock icon just for private or protected ([884eb9f](https://github.com/compodoc/compodoc/commit/884eb9f)), closes [#291](https://github.com/compodoc/compodoc/issues/291)
+* **deps:** invalid provider config ([77cc525](https://github.com/compodoc/compodoc/commit/77cc525)), closes [#293](https://github.com/compodoc/compodoc/issues/293)
+* **deps:** extends for interfaces ([8ba84a8](https://github.com/compodoc/compodoc/commit/8ba84a8)), closes [#281](https://github.com/compodoc/compodoc/issues/281)
+* **graph:** Not able to generate graph on large projects ([9ee7775](https://github.com/compodoc/compodoc/commit/9ee7775)), closes [#283](https://github.com/compodoc/compodoc/issues/283)
+* **output:** absolute path in cwd ([97953e3](https://github.com/compodoc/compodoc/commit/97953e3)), closes [#279](https://github.com/compodoc/compodoc/issues/279)
+* **deps:** return with union type & null ([b7d3406](https://github.com/compodoc/compodoc/commit/b7d3406)), closes [#287](https://github.com/compodoc/compodoc/issues/287)
+* **deps:** JSDoc tag for property in constructor ([b8965f6](https://github.com/compodoc/compodoc/commit/b8965f6)), closes [#286](https://github.com/compodoc/compodoc/issues/286)
+* **deps:** support typealias with LiteralType ([8c284e7](https://github.com/compodoc/compodoc/commit/8c284e7)), closes [#285](https://github.com/compodoc/compodoc/issues/285)
+* **cli:** Error with watch flag ([ae727ec](https://github.com/compodoc/compodoc/commit/ae727ec)), closes [#284](https://github.com/compodoc/compodoc/issues/284)
+* **deps:** support class with custom decorator ([059b3c9](https://github.com/compodoc/compodoc/commit/059b3c9)), closes [#245](https://github.com/compodoc/compodoc/issues/245)
+
+<a name="1.0.0-beta.14"></a>
+# [1.0.0-beta.14](https://github.com/compodoc/compodoc/compare/1.0.0-beta.13...1.0.0-beta.14) (2017-08-11)
+
+## Changes
+
+- main graph for huge projects with more than 200 modules is disabled
+- index for functions, variables, inputs etc
+- speed parsing for huge projects
+
+### Bug Fixes
+
+* **additional-doc:** incorrect filenames in additional-documentation ([68f80c60](https://github.com/compodoc/compodoc/commit/68f80c60)), closes [#228](https://github.com/compodoc/compodoc/issues/228)
+* **chore:** -d + absolute folder ([2830c086](https://github.com/compodoc/compodoc/commit/2830c086)), closes [#235](https://github.com/compodoc/compodoc/issues/235)
+* **modules:** Empty NgModule produce an empty graph ([d6d8388b](https://github.com/compodoc/compodoc/commit/d6d8388b)), closes [#236](https://github.com/compodoc/compodoc/issues/236)
+* **routes:** iOS 8 routes graph rendering - innerHTML + SVG ([128d33a1](https://github.com/compodoc/compodoc/commit/128d33a1)), closes [#229](https://github.com/compodoc/compodoc/issues/229)
+* **links:** Url for @link is not always right ([6be60bcb](https://github.com/compodoc/compodoc/commit/6be60bcb)), closes [#237](https://github.com/compodoc/compodoc/issues/237)
+* **links:** Wrong URL generated for inline {@link} doc in constructor ([73285b51](https://github.com/compodoc/compodoc/commit/73285b51)), closes [#264](https://github.com/compodoc/compodoc/issues/264)
+* **graph:** render again in sequence ([75ea0c96](https://github.com/compodoc/compodoc/commit/75ea0c96)), closes [#238](https://github.com/compodoc/compodoc/issues/238)
+* **routes:** Routes page not working with null route ([a62e7487](https://github.com/compodoc/compodoc/commit/a62e7487)), closes [#201](https://github.com/compodoc/compodoc/issues/201)
+* **parsing:** files scanning rewritten, huge main graph disabled ([cd03eddf](https://github.com/compodoc/compodoc/commit/cd03eddf)), closes [#226](https://github.com/compodoc/compodoc/issues/226) [#231](https://github.com/compodoc/compodoc/issues/231)
+* **overview:** don't display empty graph if no modules ([8c1ffe3b](https://github.com/compodoc/compodoc/commit/8c1ffe3b))
+* **markdown:** Images in README rendered in block ([7c695473](https://github.com/compodoc/compodoc/commit/7c695473)), closes [#261](https://github.com/compodoc/compodoc/issues/261)
+* **opts:** disablePrivateOrInternalSupport public methods in component ([a897a191](https://github.com/compodoc/compodoc/commit/a897a191)), closes [#265](https://github.com/compodoc/compodoc/issues/265)
+* **templates:** html tag bcode not balanced ([8d96a5aa](https://github.com/compodoc/compodoc/commit/8d96a5aa)), closes [#276](https://github.com/compodoc/compodoc/issues/276)
+* **deps:** UTF8-BOM parsing ([3f4707cb](https://github.com/compodoc/compodoc/commit/3f4707cb)), closes [#230](https://github.com/compodoc/compodoc/issues/230)
+* **deps:** live-server issue with Node.js 8 ([38710eaa](https://github.com/compodoc/compodoc/commit/38710eaa)), closes [#232](https://github.com/compodoc/compodoc/issues/232)
+* **deps:** empty module decorator ([00889ab6](https://github.com/compodoc/compodoc/commit/00889ab6)), closes [#248](https://github.com/compodoc/compodoc/issues/248)
+* **deps:** component @param missing in the generated documentation ([5b94056d](https://github.com/compodoc/compodoc/commit/5b94056d)), closes [#225](https://github.com/compodoc/compodoc/issues/225)
+* **deps:** @example for functions ([6b3f262c](https://github.com/compodoc/compodoc/commit/6b3f262c)), closes [#253](https://github.com/compodoc/compodoc/issues/253)
+* **deps:** c-style typed arrays support ([91f23f38](https://github.com/compodoc/compodoc/commit/91f23f38)), closes [#256](https://github.com/compodoc/compodoc/issues/256)
+* **deps:** indexable for class ([a12c120f](https://github.com/compodoc/compodoc/commit/a12c120f)), closes [#255](https://github.com/compodoc/compodoc/issues/255)
+* **deps:** coverage and constructor properties ([0653fb23](https://github.com/compodoc/compodoc/commit/0653fb23)), closes [#259](https://github.com/compodoc/compodoc/issues/259)
+* **deps:** inherit return type ([d468ee8d](https://github.com/compodoc/compodoc/commit/d468ee8d)), closes [#268](https://github.com/compodoc/compodoc/issues/268)
+* **deps:** support class with custom decorator ([059b3c9e](https://github.com/compodoc/compodoc/commit/059b3c9e)), closes [#245](https://github.com/compodoc/compodoc/issues/245)
+
+### Features
+
+* **app:** display link to MDN or TypeScript doc for basic types ([1cfa58e2](https://github.com/compodoc/compodoc/commit/1cfa58e2))
+* **app:** better params display ([0fb9e93c](https://github.com/compodoc/compodoc/commit/0fb9e93c))
+* **deps:** support of function type parameter ([e8b1c0fd](https://github.com/compodoc/compodoc/commit/e8b1c0fd))
+* **deps:** link to enums, split misc pages ([37ec7ba4](https://github.com/compodoc/compodoc/commit/37ec7ba4)), closes [#266](https://github.com/compodoc/compodoc/issues/266)
+* **deps:** @internal for main class decorator ([bafc1878](https://github.com/compodoc/compodoc/commit/bafc1878)), closes [#262](https://github.com/compodoc/compodoc/issues/262)
+* **deps:** Override JSDOC params types with TypeScript ones ([7492c45a](https://github.com/compodoc/compodoc/commit/7492c45a)), closes [#254](https://github.com/compodoc/compodoc/issues/254)
+
+<a name="1.0.0-beta.13"></a>
+# [1.0.0-beta.13](https://github.com/compodoc/compodoc/compare/1.0.0-beta.12...1.0.0-beta.13) (2017-07-15)
+
+### Bug Fixes
+
+* **deps:** Resolve array declaration in modules ([619842d](https://github.com/compodoc/compodoc/commit/619842d)), closes [#210](https://github.com/compodoc/compodoc/issues/210) [#15](https://github.com/compodoc/compodoc/issues/15)
+* **routes:** Routes names required to be unique ([7f17ecb](https://github.com/compodoc/compodoc/commit/7f17ecb)), closes [#193](https://github.com/compodoc/compodoc/issues/193)
+* **deps:** RangeError: Invalid array length / @input/@output parsing ([048fd20](https://github.com/compodoc/compodoc/commit/048fd20)), closes [#209](https://github.com/compodoc/compodoc/issues/209)
+* **html:** Type in "Infos" tab - should be "Info" ([1ceee52](https://github.com/compodoc/compodoc/commit/1ceee52)), closes [#224](https://github.com/compodoc/compodoc/issues/224)
+* **html:** Source code not rendered ([bfe4708](https://github.com/compodoc/compodoc/commit/bfe4708)), closes [#223](https://github.com/compodoc/compodoc/issues/223)
+
+### Features
+
+* **chore:** Add an interactive examples tab ([34de4f0](https://github.com/compodoc/compodoc/commit/34de4f0)), closes [#188](https://github.com/compodoc/compodoc/issues/188) Thanks rprotsyk.
+* **doc:** support to display the changelog.md, contributing, license, todo ([272a0ad](https://github.com/compodoc/compodoc/commit/272a0ad)), closes [#215](https://github.com/compodoc/compodoc/issues/215)
+* **watch:** Watch README.md, and other root markdown files ([ed05424](https://github.com/compodoc/compodoc/commit/ed05424)), closes [#221](https://github.com/compodoc/compodoc/issues/221)
+* **chore:** Markdown file support for modules, services, etc ([918a521](https://github.com/compodoc/compodoc/commit/918a521)), closes [#204](https://github.com/compodoc/compodoc/issues/204)
+
+<a name="1.0.0-beta.12"></a>
+# [1.0.0-beta.12](https://github.com/compodoc/compodoc/compare/1.0.0-beta.11...1.0.0-beta.12) (2017-07-09)
+
+### Bug Fixes
+
+* **chore:** Cannot find module 'json5' ([04fb75f](https://github.com/compodoc/compodoc/commit/04fb75f)), closes [#219](https://github.com/compodoc/compodoc/issues/219)
+* **dependencies:** All types display in the doc as void (incorrect types) ([c586b32](https://github.com/compodoc/compodoc/commit/c586b32)), closes [#218](https://github.com/compodoc/compodoc/issues/218)
+
+<a name="1.0.0-beta.11"></a>
+# [1.0.0-beta.11](https://github.com/compodoc/compodoc/compare/1.0.0-beta.10...1.0.0-beta.11) (2017-07-08)
+
+### Bug Fixes
+
+* **options:** Link correct options with CLI flags ([82af585](https://github.com/compodoc/compodoc/commit/82af585)), closes [#205](https://github.com/compodoc/compodoc/issues/205)
+* **watch:** Watch mode not working properly ([4264b5e](https://github.com/compodoc/compodoc/commit/4264b5e)), closes [#141](https://github.com/compodoc/compodoc/issues/141)
+* **search-engine:** Invalid JSON is creating an issue when rendering the object to the template ([8042af5](https://github.com/compodoc/compodoc/commit/8042af5)), closes [#187](https://github.com/compodoc/compodoc/issues/187)
+* **routes:** Trailing commas throw error when parsing routes ([7bc1e05](https://github.com/compodoc/compodoc/commit/7bc1e05)), closes [#192](https://github.com/compodoc/compodoc/issues/192) [#173](https://github.com/compodoc/compodoc/issues/173)
+* **misc:** Miscellaneous sections Functions not showing documentation ([235f1d0](https://github.com/compodoc/compodoc/commit/235f1d0)), closes [#142](https://github.com/compodoc/compodoc/issues/142)
+* **deps:** add @default support ([78257cc](https://github.com/compodoc/compodoc/commit/78257cc)), closes [#212](https://github.com/compodoc/compodoc/issues/212)
+* **deps:** Bespoke types and Promise being converted to any type in output documentation ([35af038](https://github.com/compodoc/compodoc/commit/35af038)), closes [#208](https://github.com/compodoc/compodoc/issues/208)
+* **output:** Linux unix like environments: Absolute paths generates fonts, images, js and styles in the wrong directory ([e0a3c60](https://github.com/compodoc/compodoc/commit/e0a3c60)), closes [#206](https://github.com/compodoc/compodoc/issues/206)
+
+### Features
+
+* **log:** add more logs on silent mode ([1c858c7](https://github.com/compodoc/compodoc/commit/1c858c7))
+* **chore:** run files generation in // +20% in speed generation :tada: ([832b20d](https://github.com/compodoc/compodoc/commit/832b20d))
+
+<a name="1.0.0-beta.10"></a>
+# [1.0.0-beta.10](https://github.com/compodoc/compodoc/compare/1.0.0-beta.9...1.0.0-beta.10) (2017-06-19)
+
+### Bug Fixes
+
+* **menu:** Make the entire list item clickable for a section toggle ([4f4c1f5](https://github.com/compodoc/compodoc/commit/4f4c1f5)), closes [#194](https://github.com/compodoc/compodoc/issues/194)
+* **chore:** kind icon issue for properties and functions ([4b9f496](https://github.com/compodoc/compodoc/commit/4b9f496))
+* **menu:** Navigation: clicking on a sub element (page) inside the expandable category expands all categories ([86ac1b4](https://github.com/compodoc/compodoc/commit/86ac1b4)), closes [#186](https://github.com/compodoc/compodoc/issues/186)
+* **markdown:** At sign replaced by a brace in markdown code blocks ([41c6b0d](https://github.com/compodoc/compodoc/commit/41c6b0d)), closes [#189](https://github.com/compodoc/compodoc/issues/189)
+* **dependencies:** Multiple classes in the same file get the same description ([8a679f0](https://github.com/compodoc/compodoc/commit/8a679f0)), closes [#118](https://github.com/compodoc/compodoc/issues/118)
+* **exclude:** Not able to exclude files from documentation ([a88023c](https://github.com/compodoc/compodoc/commit/a88023c)), closes [#175](https://github.com/compodoc/compodoc/issues/175)
+* **source:** Hide some elements if source code is disabled ([0e81c15](https://github.com/compodoc/compodoc/commit/0e81c15)), closes [#185](https://github.com/compodoc/compodoc/issues/185)
+* **badge:** Documentation coverage badge size should match common badges ([21f5abe](https://github.com/compodoc/compodoc/commit/21f5abe)), closes [#200](https://github.com/compodoc/compodoc/issues/200)
+* **dependencies:** Interface generation missing w/o errors. ([2b7d4e7](https://github.com/compodoc/compodoc/commit/2b7d4e7)), closes [#198](https://github.com/compodoc/compodoc/issues/198)
+* **dependencies:** Please Support @private JSDoc. ([6c7ce67](https://github.com/compodoc/compodoc/commit/6c7ce67)), closes [#183](https://github.com/compodoc/compodoc/issues/183)
+* **comments:** Newline markdown ([74f64d2](https://github.com/compodoc/compodoc/commit/74f64d2)), closes [#195](https://github.com/compodoc/compodoc/issues/195)
+
+### Features
+
+* **version** Detect angular version and link to the correct version of the documentation ([f270af7](https://github.com/compodoc/compodoc/commit/f270af7)), closes [#180](https://github.com/compodoc/compodoc/issues/180)
+* **dependencies:** Parsing refactoring, huge speed boost +75% ! ([65744ed](https://github.com/compodoc/compodoc/commit/65744ed))
+
+<a name="1.0.0-beta.9"></a>
+# [1.0.0-beta.9](https://github.com/compodoc/compodoc/compare/1.0.0-beta.8...1.0.0-beta.9) (2017-05-11)
+
+### Bug Fixes
+
+* **markdown:** Fix escaping of html entities in code blocks ([e816cbe](https://github.com/compodoc/compodoc/commit/e816cbe)), thanks Thomas Mair
+* **config:** Allow for comments in tsconfig.json ([2796de5](https://github.com/compodoc/compodoc/commit/2796de5)), closes [#177](https://github.com/compodoc/compodoc/issues/177)
+* **chore:** Problem with resources file when providing absolute output path ([b52a40e7](https://github.com/compodoc/compodoc/commit/b52a40e7)), closes [#176](https://github.com/compodoc/compodoc/issues/176)
+* **watch:** Watch for additional doc too ([52801f4b](https://github.com/compodoc/compodoc/commit/52801f4b)), closes [#163](https://github.com/compodoc/compodoc/issues/163)
+* **dependencies:** decorators support ([65bbabc7](https://github.com/compodoc/compodoc/commit/65bbabc7)), closes [#171](https://github.com/compodoc/compodoc/issues/171)
+* **markdown:** Set marked break option to false ([0e6ac342](https://github.com/compodoc/compodoc/commit/0e6ac342)), closes [#181](https://github.com/compodoc/compodoc/issues/181)
+* **dependencies:** UTF8 Bom support ([a3d5bec7](https://github.com/compodoc/compodoc/commit/a3d5bec7)), closes [#170](https://github.com/compodoc/compodoc/issues/170)
+
+### Features
+
+* **app** exclude with glob patterns ([6310735](https://github.com/compodoc/compodoc/commit/6310735)), closes [#174](https://github.com/compodoc/compodoc/issues/174)
+* **cli** display Node.js and OS infos after banner ([c0f60561](https://github.com/compodoc/compodoc/commit/c0f60561))
+
+<a name="1.0.0-beta.8"></a>
+# [1.0.0-beta.8](https://github.com/compodoc/compodoc/compare/1.0.0-beta.7...1.0.0-beta.8) (2017-04-26)
+
+### Bug Fixes
+
+* **dependencies:** custom decorators breaks ([50578ec](https://github.com/compodoc/compodoc/commit/50578ec)), closes [#169](https://github.com/compodoc/compodoc/issues/169)
+* **UI:** Open menu when item selected ([70d38c7](https://github.com/compodoc/compodoc/commit/70d38c7)), closes [#168](https://github.com/compodoc/compodoc/issues/168)
+* **graph:** No Declarations or Providers being added to module graphs ([bf776f4](https://github.com/compodoc/compodoc/commit/bf776f4)), closes [#167](https://github.com/compodoc/compodoc/issues/167)
+
+### Features
+
+* **files:** Better error reporting for template file reading ([6f2d783](https://github.com/compodoc/compodoc/commit/6f2d783))
+
+<a name="1.0.0-beta.7"></a>
+# [1.0.0-beta.7](https://github.com/compodoc/compodoc/compare/1.0.0-beta.6...1.0.0-beta.7) (2017-04-25)
+
+### Bug Fixes
+
+* **overview:** Main overview graph is shifted on right side ([8fe238d](https://github.com/compodoc/compodoc/commit/8fe238d)), closes [#166](https://github.com/compodoc/compodoc/issues/166)
+
+<a name="1.0.0-beta.6"></a>
+# [1.0.0-beta.6](https://github.com/compodoc/compodoc/compare/1.0.0-beta.5...1.0.0-beta.6) (2017-04-25)
+
+### Bug Fixes
+
+* **dependencies:** Unhandled promise rejection with "use strict" ([f56c01a](https://github.com/compodoc/compodoc/commit/f56c01a)), closes [#165](https://github.com/compodoc/compodoc/issues/165)
+* **links:** Interface Linking is wrong ([152c722](https://github.com/compodoc/compodoc/commit/152c722)), closes [#157](https://github.com/compodoc/compodoc/issues/157)
+
+### Features
+
+* **component:** Expand on the Readme.md for component to use component.md (actual name of component) ([c246ffb](https://github.com/compodoc/compodoc/commit/c246ffb)), closes [#164](https://github.com/compodoc/compodoc/issues/164)
+* **coverage:** Coverage test command ([e15f238](https://github.com/compodoc/compodoc/commit/e15f238)), closes [#156](https://github.com/compodoc/compodoc/issues/156)
+
+<a name="1.0.0-beta.5"></a>
+# [1.0.0-beta.5](https://github.com/compodoc/compodoc/compare/1.0.0-beta.4...1.0.0-beta.5) (2017-04-22)
+
+### Bug Fixes
+
+* **modules:** module graph controls JS error with file:// ([6d4be23](https://github.com/compodoc/compodoc/commit/6d4be23)), closes [#153](https://github.com/compodoc/compodoc/issues/153) [#159](https://github.com/compodoc/compodoc/issues/159)
+* **component:** custom treatment of the metadata field `template` ([1bbda74](https://github.com/compodoc/compodoc/commit/1bbda74)), closes [#137](https://github.com/compodoc/compodoc/issues/137)
+* **component:** loading template from another component fails ([1bbda74](https://github.com/compodoc/compodoc/commit/1bbda74)), closes [#147](https://github.com/compodoc/compodoc/issues/147)
+
 <a name="1.0.0-beta.4"></a>
 # [1.0.0-beta.4](https://github.com/compodoc/compodoc/compare/1.0.0-beta.3...1.0.0-beta.4) (2017-04-20)
 

@@ -5,3 +5,11 @@ test/
 coverage
 .nyc_output
 .tmp-compodoc-test/
+tools
+.travis.yml
+tslint.json
+codecov.yml
+appveyor.yml
+doc
+documentation
+package.json.old

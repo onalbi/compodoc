@@ -1,22 +1,18 @@
 import * as chai from 'chai';
 const expect = chai.expect;
 
-import {temporaryDir, shell, pkg} from '../helpers';
-const tmp = temporaryDir();
+import {shell, pkg} from '../helpers';
 
 describe('CLI Options', () => {
 
-    let runHelp = null;
+    let runHelp = undefined;
 
     before( () => {
-        tmp.create();
-        runHelp = shell('ts-node', ['./bin/index-cli.js', '-h']);
+        runHelp = shell('node', ['./bin/index-cli.js', '-h']);
     });
-    after( () => tmp.clean() );
-
 
     it(`should display correct version ${pkg.version}`, () => {
-        let runVersion = shell('ts-node', ['./bin/index-cli.js', '-V']);
+        let runVersion = shell('node', ['./bin/index-cli.js', '-V']);
         expect(runVersion.stdout.toString()).to.contain(pkg.version);
     });
 
@@ -76,6 +72,16 @@ describe('CLI Options', () => {
             expect(runHelp.stdout.toString()).to.contain('Change default serving port');
         });
 
+        it(`-w`, () => {
+            expect(runHelp.stdout.toString()).to.contain('-w, --watch');
+            expect(runHelp.stdout.toString()).to.contain('Watch source files after serve and force documentation rebuild');
+        });
+
+        it(`-e`, () => {
+            expect(runHelp.stdout.toString()).to.contain('-e, --exportFormat [format]');
+            expect(runHelp.stdout.toString()).to.contain('Export in specified format (json, html (default))');
+        });
+
         it(`--hideGenerator`, () => {
             expect(runHelp.stdout.toString()).to.contain('--hideGenerator');
             expect(runHelp.stdout.toString()).to.contain('Do not print the Compodoc link at the bottom of the page');
@@ -89,6 +95,11 @@ describe('CLI Options', () => {
         it(`--includesName`, () => {
             expect(runHelp.stdout.toString()).to.contain('--includesName [name]');
             expect(runHelp.stdout.toString()).to.contain('Name of item menu of externals markdown files (default "Additional documentation")');
+        });
+
+        it(`--coverageTest`, () => {
+            expect(runHelp.stdout.toString()).to.contain('--coverageTest');
+            expect(runHelp.stdout.toString()).to.contain('Test command of documentation coverage with a threshold');
         });
 
         it(`--disableSourceCode`, () => {
@@ -106,9 +117,29 @@ describe('CLI Options', () => {
             expect(runHelp.stdout.toString()).to.contain('Do not add the documentation coverage report');
         });
 
-        it(`--disablePrivateOrInternalSupport`, () => {
-            expect(runHelp.stdout.toString()).to.contain('--disablePrivateOrInternalSupport');
-            expect(runHelp.stdout.toString()).to.contain('Do not show private or @internal in generated documentation');
+        it(`--disablePrivate`, () => {
+            expect(runHelp.stdout.toString()).to.contain('--disablePrivate');
+            expect(runHelp.stdout.toString()).to.contain('Do not show private in generated documentation');
+        });
+
+        it(`--disableProtected`, () => {
+            expect(runHelp.stdout.toString()).to.contain('--disableProtected');
+            expect(runHelp.stdout.toString()).to.contain('Do not show protected in generated documentation');
+        });
+
+        it(`--disableInternal`, () => {
+            expect(runHelp.stdout.toString()).to.contain('--disableInternal');
+            expect(runHelp.stdout.toString()).to.contain('Do not show @internal in generated documentation');
+        });
+
+        it(`--disableLifeCycleHooks`, () => {
+            expect(runHelp.stdout.toString()).to.contain('--disableLifeCycleHooks');
+            expect(runHelp.stdout.toString()).to.contain('Do not show Angular lifecycle hooks in generated documentation');
+        });
+
+        it(`--customFavicon`, () => {
+            expect(runHelp.stdout.toString()).to.contain('--customFavicon [path]');
+            expect(runHelp.stdout.toString()).to.contain('Use a custom favicon');
         });
 
     });

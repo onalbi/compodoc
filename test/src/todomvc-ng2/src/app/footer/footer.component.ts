@@ -4,14 +4,15 @@ import { TodoStore } from '../shared/services/todo.store';
 
 import { EmitterService } from '../shared/services/emitter.service';
 
+import { LogMethod, LogProperty, LogPropertyWithArgs, LogClass, LogClassWithArgs } from '../shared/decorators/log.decorator';
+
+import { FooterComponentSchema } from './footer-component.metadata';
+
 /**
  * The footer component
  */
-@Component({
-    selector: 'footer',
-    providers: [],
-    templateUrl: './footer.component.html'
-})
+@LogClassWithArgs('toto')
+@Component(FooterComponentSchema)
 export class FooterComponent {
     /**
      * Local reference of TodoStore
@@ -20,10 +21,13 @@ export class FooterComponent {
     /**
      * Local id for EmitterService
      */
+    @LogProperty
     id: string = 'FooterComponent';
+
     /**
      * Starting filter param
      */
+    @LogPropertyWithArgs('theCurrentFilter')
     currentFilter: string = 'all';
 
     /**
@@ -38,6 +42,7 @@ export class FooterComponent {
     /**
      * Removes all the completed todos
      */
+    @LogMethod
     removeCompleted() {
 		this.todoStore.removeCompleted();
 	}

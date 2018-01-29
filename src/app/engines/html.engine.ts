@@ -1,20 +1,29 @@
-import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as Handlebars from 'handlebars';
+
 import { logger } from '../../logger';
-//import * as helpers from 'handlebars-helpers';
 import { HtmlEngineHelpers } from './html.engine.helpers';
+import { DependenciesEngine } from './dependencies.engine';
+import { ConfigurationInterface } from '../interfaces/configuration.interface';
+import { FileEngine } from './file.engine';
 
 export class HtmlEngine {
-    cache: Object = {};
-    constructor() {
-        HtmlEngineHelpers.init();
+    private cache: { page: string } = {} as any;
+
+    constructor(
+        configuration: ConfigurationInterface,
+        dependenciesEngine: DependenciesEngine,
+        private fileEngine: FileEngine = new FileEngine()) {
+
+        const helper = new HtmlEngineHelpers();
+        helper.registerHelpers(Handlebars, configuration, dependenciesEngine);
     }
-    init() {
+
+    public init(): Promise<void> {
         let partials = [
             'menu',
             'overview',
-            'readme',
+            'markdown',
             'modules',
             'module',
             'components',
@@ -24,12 +33,16 @@ export class HtmlEngine {
             'directive',
             'injectables',
             'injectable',
+            'interceptor',
             'pipes',
             'pipe',
             'classes',
             'class',
-	        'interface',
+            'interface',
             'routes',
+            'index',
+            'index-directive',
+            'index-misc',
             'search-results',
             'search-input',
             'link-type',
@@ -38,77 +51,56 @@ export class HtmlEngine {
             'block-property',
             'block-index',
             'block-constructor',
+            'block-typealias',
+            'block-accessors',
             'coverage-report',
-            'miscellaneous',
+            'miscellaneous-functions',
+            'miscellaneous-variables',
+            'miscellaneous-typealiases',
+            'miscellaneous-enumerations',
             'additional-page'
-        ],
-            i = 0,
-            len = partials.length,
-            loop = (resolve, reject) => {
-                if( i <= len-1) {
-                    fs.readFile(path.resolve(__dirname + '/../src/templates/partials/' + partials[i] + '.hbs'), 'utf8', (err, data) => {
-                        if (err) { reject(); }
-                        Handlebars.registerPartial(partials[i], data);
-                        i++;
-                        loop(resolve, reject);
-                    });
-                } else {
-                    resolve();
+        ];
+
+        return Promise
+            .all(partials.map(partial => {
+                return this.fileEngine
+                    .get(path.resolve(__dirname + '/../src/templates/partials/' + partial + '.hbs'))
+                    .then(data => Handlebars.registerPartial(partial, data));
+            })).then(() => {
+                return this.fileEngine
+                    .get(path.resolve(__dirname + '/../src/templates/page.hbs'))
+                    .then(data => this.cache.page = data);
+            }).then(() => { });
+    }
+
+    public render(mainData: any, page: any): string {
+        let o = mainData;
+        (Object as any).assign(o, page);
+
+        let template: any = Handlebars.compile(this.cache.page);
+        return template({
+            data: o
+        });
+    }
+
+    public generateCoverageBadge(outputFolder, coverageData) {
+        return this.fileEngine.get(path.resolve(__dirname + '/../src/templates/partials/coverage-badge.hbs'))
+            .then(data => {
+                let template: any = Handlebars.compile(data);
+                let result = template({
+                    data: coverageData
+                });
+                let testOutputDir = outputFolder.match(process.cwd());
+                if (!testOutputDir) {
+                    outputFolder = outputFolder.replace(process.cwd(), '');
                 }
-            }
 
-
-        return new Promise(function(resolve, reject) {
-            loop(resolve, reject);
-        });
-    }
-    render(mainData:any, page:any) {
-        var o = mainData,
-            that = this;
-        Object.assign(o, page);
-        return new Promise(function(resolve, reject) {
-            if(that.cache['page']) {
-                let template:any = Handlebars.compile(that.cache['page']),
-                    result = template({
-                        data: o
+                return this.fileEngine
+                    .write(outputFolder + path.sep + '/images/coverage-badge.svg', result)
+                    .catch(err => {
+                        logger.error('Error during coverage badge file generation ', err);
+                        return Promise.reject(err);
                     });
-                resolve(result);
-            } else {
-                fs.readFile(path.resolve(__dirname + '/../src/templates/page.hbs'), 'utf8', (err, data) => {
-                   if (err) {
-                       reject('Error during index ' + page.name + ' generation');
-                   } else {
-                       that.cache['page'] = data;
-                       let template:any = Handlebars.compile(data),
-                           result = template({
-                               data: o
-                           });
-                       resolve(result);
-                   }
-               });
-            }
-
-        });
+            }, err => Promise.reject('Error during coverage badge generation'));
     }
-    generateCoverageBadge(outputFolder, coverageData) {
-        return new Promise((resolve, reject) => {
-            fs.readFile(path.resolve(__dirname + '/../src/templates/partials/coverage-badge.hbs'), 'utf8', (err, data) => {
-               if (err) {
-                   reject('Error during coverage badge generation');
-               } else {
-                   let template:any = Handlebars.compile(data),
-                       result = template({
-                           data: coverageData
-                       });
-                   fs.outputFile(path.resolve(process.cwd() + path.sep + outputFolder + path.sep + '/images/coverage-badge.svg'), result, function (err) {
-                       if(err) {
-                           logger.error('Error during search index file generation ', err);
-                           reject(err);
-                       }
-                       resolve();
-                   });
-               }
-           });
-       });
-    }
-};
+}

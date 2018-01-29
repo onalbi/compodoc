@@ -1,4 +1,5 @@
 export const shell = require('child_process').spawnSync;
+export const spawn = require('child_process').spawn;
 export const exec = require('child_process').exec;
 export const shellAsync = require('child_process').spawn;
 export const fs = require('fs-extra');
@@ -13,19 +14,31 @@ export function exists(file: string): boolean {
     return fs.existsSync(file);
 }
 
+export function stats(file: string): object {
+    return fs.statSync(file);
+}
+
+export function remove(file: string): boolean {
+    return fs.removeSync(file);
+}
+
+export function copy(source: string, dest: string): boolean {
+    return fs.copySync(source, dest);
+}
+
 export function temporaryDir() {
     let name = '.tmp-compodoc-test';
-    let cleanUp = (name) => {
-        if( fs.existsSync(name) ) {
-            fs.readdirSync(name).forEach((file) => {
-                var curdir = path.join(name, file);
+    let cleanUp = (cleanUpName) => {
+        if( fs.existsSync(cleanUpName) ) {
+            fs.readdirSync(cleanUpName).forEach((file) => {
+                const curdir = path.join(cleanUpName, file);
                 if(fs.statSync(curdir).isDirectory()) {
                     cleanUp(curdir);
                 } else {
                     fs.unlinkSync(curdir);
                 }
             });
-            fs.rmdirSync(name);
+            fs.rmdirSync(cleanUpName);
         }
     };
 
@@ -36,7 +49,7 @@ export function temporaryDir() {
         },
         create(param?) {
             if (param) name = param;
-            if (!fs.existsSync(name)){
+            if (!fs.existsSync(name)) {
                 fs.mkdirSync(name);
             }
         },
@@ -46,5 +59,5 @@ export function temporaryDir() {
                 cleanUp(name);
             } catch (e) {}
         }
-    }
+    };
 }

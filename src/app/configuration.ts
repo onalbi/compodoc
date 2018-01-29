@@ -1,71 +1,12 @@
 import { COMPODOC_DEFAULTS } from '../utils/defaults';
+import { PageInterface } from './interfaces/page.interface';
+import { MainDataInterface } from './interfaces/main-data.interface';
+import { ConfigurationInterface } from './interfaces/configuration.interface';
+import * as _ from 'lodash';
 
-interface Page {
-    name: string;
-    filename?: string;
-    context: string;
-    path?: string;
-    module?: any;
-    pipe?: any;
-    class?: any;
-    interface?: any;
-    directive?: any;
-    injectable?: any;
-    additionalPage?: any;
-    files?: any;
-    data?: any;
-    depth?: number;
-    pageType?: string;
-    component?: any;
-}
-
-interface IMainData {
-    output: string;
-    theme: string;
-    extTheme: string;
-    serve: boolean;
-    port: number;
-    open: boolean;
-    assetsFolder: string;
-    documentationMainName: string;
-    documentationMainDescription: string;
-    base: string;
-    hideGenerator: boolean;
-    modules: any;
-    readme: string;
-    additionalPages: any;
-    pipes: any;
-    classes: any;
-    interfaces: any;
-    components: any;
-    directives: any;
-    injectables: any;
-    miscellaneous: any;
-    routes: any;
-    tsconfig: string;
-    toggleMenuItems: string[];
-    includes: string;
-    includesName: string;
-    includesFolder: string;
-    disableSourceCode: boolean;
-    disableGraph: boolean;
-    disableCoverage: boolean;
-    disablePrivateOrInternalSupport: boolean;
-    watch: boolean;
-}
-
-export interface IConfiguration {
-    mainData: IMainData;
-    pages:Page[];
-    addPage(page: Page): void;
-    addAdditionalPage(page: Page): void;
-}
-
-export class Configuration implements IConfiguration {
-    private static _instance:Configuration = new Configuration();
-
-    private _pages:Page[] = [];
-    private _mainData: IMainData = {
+export class Configuration implements ConfigurationInterface {
+    private _pages: PageInterface[] = [];
+    private _mainData: MainDataInterface = {
         output: COMPODOC_DEFAULTS.folder,
         theme: COMPODOC_DEFAULTS.theme,
         extTheme: '',
@@ -78,7 +19,12 @@ export class Configuration implements IConfiguration {
         base: COMPODOC_DEFAULTS.base,
         hideGenerator: false,
         modules: [],
-        readme: '',
+        readme: false,
+        changelog: '',
+        contributing: '',
+        license: '',
+        todo: '',
+        markdowns: [],
         additionalPages: [],
         pipes: [],
         classes: [],
@@ -86,8 +32,9 @@ export class Configuration implements IConfiguration {
         components: [],
         directives: [],
         injectables: [],
-        routes: [],
+        interceptors: [],
         miscellaneous: [],
+        routes: [],
         tsconfig: '',
         toggleMenuItems: [],
         includes: '',
@@ -95,46 +42,69 @@ export class Configuration implements IConfiguration {
         includesFolder: COMPODOC_DEFAULTS.additionalEntryPath,
         disableSourceCode: COMPODOC_DEFAULTS.disableSourceCode,
         disableGraph: COMPODOC_DEFAULTS.disableGraph,
+        disableMainGraph: COMPODOC_DEFAULTS.disableMainGraph,
         disableCoverage: COMPODOC_DEFAULTS.disableCoverage,
-        disablePrivateOrInternalSupport: COMPODOC_DEFAULTS.disablePrivateOrInternalSupport,
-        watch: false
+        disablePrivate: COMPODOC_DEFAULTS.disablePrivate,
+        disableInternal: COMPODOC_DEFAULTS.disableInternal,
+        disableProtected: COMPODOC_DEFAULTS.disableProtected,
+        disableLifeCycleHooks: COMPODOC_DEFAULTS.disableLifeCycleHooks,
+        watch: false,
+        mainGraph: '',
+        coverageTest: false,
+        coverageTestThreshold: COMPODOC_DEFAULTS.defaultCoverageThreshold,
+        coverageTestPerFile: false,
+        coverageMinimumPerFile: COMPODOC_DEFAULTS.defaultCoverageMinimumPerFile,
+        routesLength: 0,
+        angularVersion: '',
+        exportFormat: COMPODOC_DEFAULTS.exportFormat,
+        coverageData: {},
+        customFavicon: ''
     };
 
-    constructor() {
-        if(Configuration._instance){
-            throw new Error('Error: Instantiation failed: Use Configuration.getInstance() instead of new.');
+    public addPage(page: PageInterface) {
+        let indexPage = _.findIndex(this._pages, { 'name': page.name });
+        if (indexPage === -1) {
+            this._pages.push(page);
         }
-        Configuration._instance = this;
     }
 
-    public static getInstance():Configuration
-    {
-        return Configuration._instance;
-    }
-
-    addPage(page: Page) {
-        this._pages.push(page);
-    }
-
-    addAdditionalPage(page: Page) {
+    public addAdditionalPage(page: PageInterface) {
         this._mainData.additionalPages.push(page);
     }
 
-    resetPages() {
+    public resetPages() {
         this._pages = [];
     }
 
-    get pages():Page[] {
+    public resetAdditionalPages() {
+        this._mainData.additionalPages = [];
+    }
+
+    public resetRootMarkdownPages() {
+        let indexPage = _.findIndex(this._pages, { 'name': 'index' });
+        this._pages.splice(indexPage, 1);
+        indexPage = _.findIndex(this._pages, { 'name': 'changelog' });
+        this._pages.splice(indexPage, 1);
+        indexPage = _.findIndex(this._pages, { 'name': 'contributing' });
+        this._pages.splice(indexPage, 1);
+        indexPage = _.findIndex(this._pages, { 'name': 'license' });
+        this._pages.splice(indexPage, 1);
+        indexPage = _.findIndex(this._pages, { 'name': 'todo' });
+        this._pages.splice(indexPage, 1);
+        this._mainData.markdowns = [];
+    }
+
+    get pages(): PageInterface[] {
         return this._pages;
     }
-    set pages(pages:Page[]) {
+    set pages(pages: PageInterface[]) {
         this._pages = [];
     }
 
-    get mainData():IMainData {
+    get mainData(): MainDataInterface {
         return this._mainData;
     }
-    set mainData(data:IMainData) {
-        Object.assign(this._mainData, data);
+    set mainData(data: MainDataInterface) {
+        (Object as any).assign(this._mainData, data);
     }
-};
+}

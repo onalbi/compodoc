@@ -34,9 +34,11 @@
                </div>
                <div class="content {{data.context}}">
                    <div class="content-data">
-                   {{#compare data.context "===" 'readme'}}
-                        {{~> readme data ~}}
+
+                   {{#compare data.context "===" 'getting-started'}}
+                        {{~> markdown data ~}}
                    {{/compare}}
+
                    {{#compare data.context "===" 'overview'}}
                         {{~> overview data ~}}
                    {{/compare}}
@@ -69,6 +71,10 @@
                         {{~> injectable data ~}}
                    {{/compare}}
 
+                   {{#compare data.context "===" 'interceptor'}}
+                        {{~> interceptor data ~}}
+                   {{/compare}}
+
                    {{#compare data.context "===" 'pipes'}}
                         {{~> pipes data ~}}
                    {{/compare}}
@@ -91,8 +97,17 @@
                         {{~> routes data ~}}
                    {{/compare}}
 
-                   {{#compare data.context "===" 'miscellaneous'}}
-                        {{~> miscellaneous data ~}}
+                   {{#compare data.context "===" 'miscellaneous-functions'}}
+                        {{~> miscellaneous-functions data ~}}
+                   {{/compare}}
+                   {{#compare data.context "===" 'miscellaneous-variables'}}
+                        {{~> miscellaneous-variables data ~}}
+                   {{/compare}}
+                   {{#compare data.context "===" 'miscellaneous-typealiases'}}
+                        {{~> miscellaneous-typealiases data ~}}
+                   {{/compare}}
+                   {{#compare data.context "===" 'miscellaneous-enumerations'}}
+                        {{~> miscellaneous-enumerations data ~}}
                    {{/compare}}
 
                    {{#compare data.context "===" 'coverage'}}

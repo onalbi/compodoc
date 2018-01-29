@@ -4,33 +4,44 @@
 </ol>
 
 {{#unless disableGraph}}
-<div class="text-center">
-    <object id="demo-svg" type="image/svg+xml" data="{{relativeURL depth 'modules'}}modules/{{name}}/dependencies.svg" style="width: 100%; height: 250px;">
-            Your browser does not support SVG
-    </object>
-    <div class="btn-group">
-        <button id="zoom-in" class="btn btn-default btn-sm">Zoom in</button>
-        <button id="reset" class="btn btn-default btn-sm">Reset</button>
-        <button id="zoom-out" class="btn btn-default btn-sm">Zoom out</button>
-    </div>
-</div>
-<script src="{{relativeURL depth 'modules'}}js/libs/svg-pan-zoom.min.js"></script>
-<script src="{{relativeURL depth 'modules'}}js/svg-pan-zoom.controls.js"></script>
+  {{#if module.graph }}
+      <div class="text-center module-graph-container">
+          <div id="module-graph-svg">
+              {{{ module.graph }}}
+          </div>
+          <i id="fullscreen" class="fa fa-expand module-graph-fullscreen-btn" aria-hidden="true"></i>
+          <div class="btn-group">
+              <button id="zoom-in" class="btn btn-default btn-sm">Zoom in</button>
+              <button id="reset" class="btn btn-default btn-sm">Reset</button>
+              <button id="zoom-out" class="btn btn-default btn-sm">Zoom out</button>
+          </div>
+      </div>
+      <script src="{{relativeURL depth 'modules'}}js/libs/svg-pan-zoom.min.js"></script>
+      <script src="{{relativeURL depth 'modules'}}js/svg-pan-zoom.controls.js"></script>
+    {{/if}}
 {{/unless}}
 
-{{#unless disableSourceCode}}
 <ul class="nav nav-tabs" role="tablist">
     <li class="active">
-        <a href="#infos" id="infos-tab" role="tab" data-toggle="tab">Infos</a>
+        <a href="#info" id="info-tab" role="tab" data-toggle="tab" data-link="info">Info</a>
     </li>
+
+    {{#if module.readme}}
+    <li>
+        <a href="#readme" role="tab" id="readme-tab" data-toggle="tab" data-link="readme">README</a>
+    </li>
+    {{/if}}
+
+    {{#unless disableSourceCode}}
     <li>
         <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
     </li>
+    {{/unless}}
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="infos">
-        {{/unless}}
+    <div class="tab-pane fade active in" id="c-info">
+
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -51,7 +62,7 @@
             <div class="row">
                 {{#if module.declarations}}
                 <div class="col-sm-3">
-                    <h3>Declarations<a href="https://angular.io/docs/ts/latest/api/core/index/NgModule-interface.html#!#declarations-anchor" target="_blank"><span class="fa fa-info-circle"></span></a></h3>
+                    <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank" title="Official documentation about module declarations"><span class="fa fa-info-circle"></span></a></h3>
                     <ul class="list-group">
                         {{#each module.declarations}}
                             <li class="list-group-item">
@@ -61,13 +72,30 @@
                     </ul>
                 </div>
                 {{/if}}
+                {{#if module.entryComponents}}
+                <div class="col-sm-3">
+                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank" title="Official documentation about module entryComponents"><span class="fa fa-info-circle"></span></a></h3>
+                    <ul class="list-group">
+                        {{#each module.entryComponents}}
+                            <li class="list-group-item">
+                                <a href="{{relativeURL ../depth 'modules'}}{{type}}s/{{name}}.html">{{name}}</a>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{/if}}
                 {{#if module.providers}}
                 <div class="col-sm-3">
-                    <h3>Providers<a href="https://angular.io/docs/ts/latest/api/core/index/NgModule-interface.html#!#providers-anchor" target="_blank"><span class="fa fa-info-circle"></a></h3>
+                    <h3>Providers<a href="https://angular.io/api/core/NgModule#providers" target="_blank" title="Official documentation about module providers"><span class="fa fa-info-circle"></a></h3>
                     <ul class="list-group">
                         {{#each module.providers}}
                             <li class="list-group-item">
-                                <a href="{{relativeURL ../depth 'modules'}}injectables/{{name}}.html" >{{name}}</a>
+                                {{#compare type "===" 'injectable'}}
+                                     <a href="{{relativeURL ../depth 'modules'}}injectables/{{name}}.html" >{{name}}</a>
+                                {{/compare}}
+                                {{#compare type "===" 'interceptor'}}
+                                     <a href="{{relativeURL ../depth 'modules'}}interceptors/{{name}}.html" >{{name}}</a>
+                                {{/compare}}
                             </li>
                         {{/each}}
                     </ul>
@@ -75,7 +103,7 @@
                 {{/if}}
                 {{#if module.imports}}
                 <div class="col-sm-3">
-                    <h3>Imports<a href="https://angular.io/docs/ts/latest/api/core/index/NgModule-interface.html#!#imports-anchor" target="_blank"><span class="fa fa-info-circle"></a></h3>
+                    <h3>Imports<a href="https://angular.io/api/core/NgModule#imports" target="_blank" title="Official documentation about module imports"><span class="fa fa-info-circle"></a></h3>
                     <ul class="list-group">
                         {{#each module.imports}}
                             <li class="list-group-item">
@@ -91,7 +119,7 @@
                 {{/if}}
                 {{#if module.exports}}
                 <div class="col-sm-3">
-                    <h3>Exports<a href="https://angular.io/docs/ts/latest/api/core/index/NgModule-interface.html#!#exports-anchor" target="_blank"><span class="fa fa-info-circle"></a></h3>
+                    <h3>Exports<a href="https://angular.io/api/core/NgModule#exports" target="_blank" title="Official documentation about module exports"><span class="fa fa-info-circle"></a></h3>
                     <ul class="list-group">
                         {{#each module.exports}}
                             <li class="list-group-item">
@@ -107,7 +135,7 @@
                 {{/if}}
                 {{#if module.bootstrap}}
                 <div class="col-sm-3">
-                    <h3>Bootstrap<a href="https://angular.io/docs/ts/latest/api/core/index/NgModule-interface.html#!#bootstrap-anchor" target="_blank"><span class="fa fa-info-circle"></a></h3>
+                    <h3>Bootstrap<a href="https://angular.io/api/core/NgModule#bootstrap" target="_blank" title="Official documentation about module bootstrap"><span class="fa fa-info-circle"></a></h3>
                     <ul class="list-group">
                         {{#each module.bootstrap}}
                             <li class="list-group-item">
@@ -119,10 +147,17 @@
                 {{/if}}
             </div>
         </div>
-    {{#unless disableSourceCode}}
     </div>
-    <div class="tab-pane fade tab-source-code" id="source">
+
+    {{#if module.readme}}
+    <div class="tab-pane fade" id="c-readme">
+        <p>{{{module.readme}}}</p>
+    </div>
+    {{/if}}
+
+    {{#unless disableSourceCode}}
+    <div class="tab-pane fade tab-source-code" id="c-source">
         <pre class="line-numbers"><code class="language-typescript">{{ module.sourceCode}}</code></pre>
     </div>
+    {{/unless}}
 </div>
-{{/unless}}

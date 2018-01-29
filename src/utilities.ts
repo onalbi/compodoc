@@ -1,10 +1,12 @@
-import * as ts from 'typescript';
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as util from 'util';
+import * as ts from 'typescript';
 import * as _ from 'lodash';
 
 import { logger } from './logger';
+
+import { stripBom, hasBom } from './utils/utils';
 
 const carriageReturnLineFeed = '\r\n';
 const lineFeed = '\n';
@@ -14,7 +16,7 @@ export function cleanNameWithoutSpaceAndToLowerCase(name: string): string {
 }
 
 export function detectIndent(str, count, indent?): string {
-    let stripIndent = function(str: string) {
+    let stripIndent = (str: string) => {
         const match = str.match(/^[ \t]*(?=\S)/gm);
 
         if (!match) {
@@ -26,15 +28,16 @@ export function detectIndent(str, count, indent?): string {
         const re = new RegExp(`^[ \\t]{${indent}}`, 'gm');
 
         return indent > 0 ? str.replace(re, '') : str;
-    },
-        repeating = function(n, str) {
+    };
+
+    let repeating = (n, str) => {
         str = str === undefined ? ' ' : str;
 
         if (typeof str !== 'string') {
             throw new TypeError(`Expected \`input\` to be a \`string\`, got \`${typeof str}\``);
         }
 
-        if (n < 0 || !Number.isFinite(n)) {
+        if (n < 0) {
             throw new TypeError(`Expected \`count\` to be a positive finite number, got \`${n}\``);
         }
 
@@ -49,8 +52,9 @@ export function detectIndent(str, count, indent?): string {
         } while ((n >>= 1));
 
         return ret;
-    },
-    indentString = function(str, count, indent) {
+    };
+
+    let indentString = (str, count, indent) => {
         indent = indent === undefined ? ' ' : indent;
         count = count === undefined ? 1 : count;
 
@@ -73,7 +77,7 @@ export function detectIndent(str, count, indent?): string {
         indent = count > 1 ? repeating(count, indent) : indent;
 
         return str.replace(/^(?!\s*$)/mg, indent);
-    }
+    };
 
     return indentString(stripIndent(str), count || 0, indent);
 }
@@ -83,8 +87,8 @@ export function compilerHost(transpileOptions: any): ts.CompilerHost {
 
     const inputFileName = transpileOptions.fileName || (transpileOptions.jsx ? 'module.tsx' : 'module.ts');
 
-    const compilerHost: ts.CompilerHost = {
-        getSourceFile: (fileName) => {
+    const toReturn: ts.CompilerHost = {
+        getSourceFile: (fileName: string) => {
             if (fileName.lastIndexOf('.ts') !== -1) {
                 if (fileName === 'lib.d.ts') {
                     return undefined;
@@ -104,8 +108,11 @@ export function compilerHost(transpileOptions: any): ts.CompilerHost {
 
                 try {
                     libSource = fs.readFileSync(fileName).toString();
-                }
-                catch(e) {
+
+                    if (hasBom(libSource)) {
+                        libSource = stripBom(libSource);
+                    }
+                } catch (e) {
                     logger.debug(e, fileName);
                 }
 
@@ -113,7 +120,7 @@ export function compilerHost(transpileOptions: any): ts.CompilerHost {
             }
             return undefined;
         },
-        writeFile: (name, text) => {},
+        writeFile: (name, text) => { },
         getDefaultLibFileName: () => 'lib.d.ts',
         useCaseSensitiveFileNames: () => false,
         getCanonicalFileName: fileName => fileName,
@@ -124,21 +131,21 @@ export function compilerHost(transpileOptions: any): ts.CompilerHost {
         directoryExists: () => true,
         getDirectories: () => []
     };
-    return compilerHost;
+
+    return toReturn;
 }
 
 export function findMainSourceFolder(files: string[]) {
-    let mainFolder = '',
-        mainFolderCount = 0,
-        rawFolders = files.map((filepath) => {
-            var shortPath = filepath.replace(process.cwd() + path.sep, '');
-            return path.dirname(shortPath);
-        }),
-        folders = {},
-        i = 0;
+    let mainFolder = '';
+    let mainFolderCount = 0;
+    let rawFolders = files.map((filepath) => {
+        let shortPath = filepath.replace(process.cwd() + path.sep, '');
+        return path.dirname(shortPath);
+    });
+    let folders = {};
     rawFolders = _.uniq(rawFolders);
-    let len = rawFolders.length;
-    for(i; i<len; i++){
+
+    for (let i = 0; i < rawFolders.length; i++) {
         let sep = rawFolders[i].split(path.sep);
         sep.map((folder) => {
             if (folders[folder]) {
@@ -146,10 +153,10 @@ export function findMainSourceFolder(files: string[]) {
             } else {
                 folders[folder] = 1;
             }
-        })
+        });
     }
     for (let f in folders) {
-        if(folders[f] > mainFolderCount) {
+        if (folders[f] > mainFolderCount) {
             mainFolderCount = folders[f];
             mainFolder = f;
         }

@@ -8,38 +8,54 @@
                     </td>
                 </tr>
                 {{#if constructor.line}}
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="{{{constructor.line}}}" class="link-to-prism">{{file}}:{{{constructor.line}}}</a></div>
-                        </td>
-                    </tr>
+                    {{#unless disableSourceCode}}
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="{{{constructor.line}}}" class="link-to-prism">{{file}}:{{{constructor.line}}}</a></div>
+                            </td>
+                        </tr>
+                    {{/unless}}
                 {{/if}}
 
-                {{#or constructor.description constructor.jsdoctags}}
+                {{#or constructor.jsdoctags}}
                 <tr>
                     <td class="col-md-4">
                         {{#if constructor.description}}
-                            <div class="io-description">{{{parseDescription constructor.description ../depth}}}</div>
+                            <div class="io-description">{{{parseDescription constructor.description ./depth}}}</div>
                         {{/if}}
                         {{#if constructor.jsdoctags}}
-                            <div class="io-description">
+                            {{#jsdoc-params-valid constructor.jsdoctags}}
+                            <div>
                                 {{#jsdoc-params constructor.jsdoctags}}
                                     <b>Parameters :</b>
-                                    <ul class="jsdoc-params">
-                                        {{#each tags}}
-                                            <li>
-                                                <div>
-                                                    <b>{{name}}</b>
-                                                    {{#if type}}
-                                                        : {{> link-type type=type }}
-                                                    {{/if}}
-                                                </div>
-                                                <div>
-                                                    {{{comment}}}
-                                                </div>
-                                            </li>
-                                        {{/each}}
-                                    </ul>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Type</td>
+                                                <td>Optional</td>
+                                                <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each tags}}
+                                                <tr>
+                                                  <td>{{name}}</td>
+                                                  <td>
+                                                      {{#if type}}
+                                                        {{> link-type type=type }}
+                                                      {{/if}}
+                                                  </td>
+                                                  <td>
+                                                      {{#if optional}}
+                                                          true
+                                                      {{/if}}
+                                                  </td>
+                                                  <td>{{{comment}}}</td>
+                                                </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
                                 {{/jsdoc-params}}
                                 {{#jsdoc-example constructor.jsdoctags}}
                                     <b>Example :</b>
@@ -50,6 +66,7 @@
                                     {{/each}}
                                 {{/jsdoc-example}}
                             </div>
+                            {{/jsdoc-params-valid}}
                         {{/if}}
                     </td>
                 </tr>

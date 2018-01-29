@@ -1,3 +1,5 @@
+import { ClockInterface } from './clock.interface';
+
 /**
  * An interface just for documentation purpose
  */
@@ -24,6 +26,11 @@ interface LabelledTodo {
  * ```
  */
 interface SearchFunc {
+    /**
+     * A function
+     * @param {string} source A string
+     * @param {string} subString A substring
+     */
     (source: string, subString: string): boolean;
 }
 
@@ -36,27 +43,6 @@ interface SearchFunc {
  */
 interface StringArray {
     [index: number]: string;
-}
-
-/**
- * A class interface just for documentation purpose
- * ```typescript
- * class Clock implements ClockInterface {
- *     currentTime: Date;
- *     constructor(h: number, m: number) { }
- * }
- * ```
- */
-interface ClockInterface {
-    /**
-     * The current time
-     * @type {Date}
-     */
-    currentTime: Date;
-    /**
-     * A simple reset method
-     */
-    reset(): void;
 }
 
 class Clock implements ClockInterface {

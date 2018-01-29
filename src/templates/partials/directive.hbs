@@ -3,19 +3,32 @@
   <li>{{name}}</li>
 </ol>
 
-{{#unless disableSourceCode}}
 <ul class="nav nav-tabs" role="tablist">
     <li class="active">
-        <a href="#infos" id="infos-tab" role="tab" data-toggle="tab">Infos</a>
+        <a href="#info" id="info-tab" role="tab" data-toggle="tab" data-link="info">Info</a>
     </li>
+
+    {{#if directive.readme}}
+    <li>
+        <a href="#readme" role="tab" id="readme-tab" data-toggle="tab" data-link="readme">README</a>
+    </li>
+    {{/if}}
+
+    {{#unless disableSourceCode}}
     <li>
         <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
     </li>
+    {{/unless}}
+
+    {{#if directive.exampleUrls}}
+    <li>
+        <a href="#example" role="tab" id="example-tab" data-toggle="tab" data-link="example">Examples</a>
+    </li>
+    {{/if}}
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="infos">
-        {{/unless}}
+    <div class="tab-pane fade active in" id="c-info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -48,13 +61,13 @@
                 <h3>Example</h3>
             </p>
             <div class="io-description">
-                {{#jsdoc-component-example directive.jsdoctags}}
+                {{#jsdoc-code-example directive.jsdoctags}}
                     {{#each tags}}
                         <div>
                             {{{comment}}}
                         </div>
                     {{/each}}
-                {{/jsdoc-component-example}}
+                {{/jsdoc-code-example}}
             </div>
         {{/if}}
 
@@ -86,6 +99,14 @@
             </table>
         </section>
 
+        {{#orLength directive.propertiesClass directive.methodsClass directive.inputsClass directive.outputClass directive.hostBindings directive.hostListeners directive.accessors}}
+            {{> index-directive methods=directive.methodsClass properties=directive.propertiesClass inputs=directive.inputsClass outputs=directive.outputsClass hostBindings=directive.hostBindings hostListeners=directive.hostListeners accessors=directive.accessors }}
+        {{/orLength}}
+
+        {{#if directive.constructorObj}}
+            {{> block-constructor constructor=directive.constructorObj file=directive.file }}
+        {{/if}}
+
         {{#if directive.inputsClass}}
             <section>
                 <h3 id="inputs">Inputs</h3>
@@ -94,6 +115,7 @@
                         <tbody>
                             <tr>
                                 <td class="col-md-2">
+                                    <a name="{{name}}"></a>
                                     <code>{{name}}</code>
                                 </td>
                                 <td class="col-md-10">
@@ -113,11 +135,13 @@
                                 </td>
                             </tr>
                             {{#if line}}
-                                <tr>
-                                    <td class="col-md-2" colspan="2">
-                                        <div class="io-line">Defined in <a href="" data-line="{{{line}}}" class="link-to-prism">{{../directive.file}}:{{{line}}}</a></div>
-                                    </td>
-                                </tr>
+                                {{#unless ../disableSourceCode}}
+                                    <tr>
+                                        <td class="col-md-2" colspan="2">
+                                            <div class="io-line">Defined in <a href="" data-line="{{{line}}}" class="link-to-prism">{{../directive.file}}:{{{line}}}</a></div>
+                                        </td>
+                                    </tr>
+                                {{/unless}}
                             {{/if}}
                         </tbody>
                     </table>
@@ -133,6 +157,7 @@
                         <tbody>
                             <tr>
                                 <td class="col-md-2">
+                                    <a name="{{name}}"></a>
                                     <code>{{name}}</code>
                                 </td>
                                 <td class="col-md-10">
@@ -145,11 +170,13 @@
                                 </td>
                             </tr>
                             {{#if line}}
-                                <tr>
-                                    <td class="col-md-2" colspan="2">
-                                        <div class="io-line">Defined in <a href="" data-line="{{{line}}}" class="link-to-prism">{{../directive.file}}:{{{line}}}</a></div>
-                                    </td>
-                                </tr>
+                                {{#unless ../disableSourceCode}}
+                                    <tr>
+                                        <td class="col-md-2" colspan="2">
+                                            <div class="io-line">Defined in <a href="" data-line="{{{line}}}" class="link-to-prism">{{../directive.file}}:{{{line}}}</a></div>
+                                        </td>
+                                    </tr>
+                                {{/unless}}
                             {{/if}}
                         </tbody>
                     </table>
@@ -157,8 +184,12 @@
             </section>
         {{/if}}
 
-        {{#if directive.constructorObj}}
-            {{> block-constructor constructor=directive.constructorObj file=directive.file }}
+        {{#if directive.hostBindings}}
+            {{> block-property properties=directive.hostBindings file=directive.file title="HostBindings" }}
+        {{/if}}
+
+        {{#if directive.hostListeners}}
+            {{> block-method methods=directive.hostListeners file=directive.file title="HostListeners" }}
         {{/if}}
 
         {{#if directive.methodsClass}}
@@ -169,10 +200,31 @@
             {{> block-property properties=directive.propertiesClass file=directive.file }}
         {{/if}}
 
-    {{#unless disableSourceCode}}
+        {{#if directive.accessors}}
+            {{> block-accessors accessors=directive.accessors file=directive.file }}
+        {{/if}}
+
     </div>
-    <div class="tab-pane fade tab-source-code" id="source">
+
+    {{#if directive.readme}}
+    <div class="tab-pane fade" id="c-readme">
+        <p>{{{directive.readme}}}</p>
+    </div>
+    {{/if}}
+
+    {{#unless disableSourceCode}}
+    <div class="tab-pane fade tab-source-code" id="c-source">
         <pre class="line-numbers"><code class="language-typescript">{{ directive.sourceCode}}</code></pre>
     </div>
+    {{/unless}}
+
+    {{#if directive.exampleUrls}}
+    <div class="tab-pane fade" id="c-example">
+        {{#each directive.exampleUrls}}
+            <iframe src="{{this}}" style="height: 100vh; width: 100%;">
+                <p>Your browser does not support iframes.</p>
+            </iframe>
+        {{/each}}
+    </div>
+    {{/if}}
 </div>
-{{/unless}}
